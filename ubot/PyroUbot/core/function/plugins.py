@@ -13,7 +13,11 @@ HELP_COMMANDS = {}
 async def loadPlugins():
     modules = loadModule()
     for mod in modules:
-        imported_module = importlib.import_module(f"PyroUbot.modules.{mod}")
+        try:
+            imported_module = importlib.import_module(f"PyroUbot.modules.{mod}")
+        except Exception as error:
+            print(f"[ERROR] gagal load module {mod}: {error}")
+            continue
         module_name = getattr(imported_module, "__MODULE__", "").replace(" ", "_").lower()
         if module_name:
             HELP_COMMANDS[module_name] = imported_module

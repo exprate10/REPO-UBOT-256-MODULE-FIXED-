@@ -119,11 +119,14 @@ async def auto_cek_pembayaran(user_id, order_id, amount, role, durasi, sent_mess
 @PY.CALLBACK("belirole")
 async def _(client, callback_query):
     user_id = callback_query.from_user.id
-    await smart_edit(
-        callback_query,
-        MSG.PILIH_ROLE(callback_query),
-        reply_markup=InlineKeyboardMarkup(BTN.ROLE_SELECT(user_id)),
-    )
+    try:
+        await smart_edit(
+            callback_query,
+            MSG.PILIH_ROLE(callback_query),
+            reply_markup=InlineKeyboardMarkup(BTN.ROLE_SELECT(user_id)),
+        )
+    except Exception as error:
+        await callback_query.answer(f"Error: {error}", True)
 
 
 @PY.CALLBACK("rolepilih")
@@ -131,11 +134,14 @@ async def _(client, callback_query):
     data = callback_query.data.split()
     role = data[1]
     user_id = callback_query.from_user.id
-    await smart_edit(
-        callback_query,
-        MSG.DURASI(role),
-        reply_markup=InlineKeyboardMarkup(BTN.ROLE_DURASI(role, user_id)),
-    )
+    try:
+        await smart_edit(
+            callback_query,
+            MSG.DURASI(role),
+            reply_markup=InlineKeyboardMarkup(BTN.ROLE_DURASI(role, user_id)),
+        )
+    except Exception as error:
+        await callback_query.answer(f"Error: {error}", True)
 
 
 @PY.CALLBACK("roledur")

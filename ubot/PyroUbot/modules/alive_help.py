@@ -339,48 +339,60 @@ async def user_help_inline(client, inline_query):
     except:
         pass
 
-@bot.on_callback_query(filters.regex("^(help_|prev_|next_)"))
+@bot.on_callback_query(filters.regex(r"^help_"))
 async def help_callback(client, callback_query):
     data = callback_query.data
-    
-    if "prev_" in data or "next_" in data:
-        page_match = re.search(r"(\d+)", data)
-        if page_match:
-            page = int(page_match.group(1))
-            return await callback_query.edit_message_reply_markup(
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(page, HELP_COMMANDS, "help")
-                )
-            )
 
-    elif "back" in data:
-        SH = await ubot.get_prefix(callback_query.from_user.id)
-        caption = (
+    def menu_caption():
+        return (
             f"<blockquote><b>"
             f"✣ ᴍᴇɴᴜ ɪɴʟɪɴᴇ "
             f"<a href=tg://user?id={callback_query.from_user.id}>"
             f"{callback_query.from_user.first_name} {callback_query.from_user.last_name or ''}</a>\n"
             f"ᴛᴏᴛᴀʟ ᴍᴏᴅᴜʟᴇs: {len(HELP_COMMANDS)}\n"
-            f"ᴘʀᴇꜰɪx: {' '.join(SH)}\n"
             f"ᴍʏ ᴜʙᴏᴛ: <a href=t.me/{bot.me.username}>{bot.me.username}</a>"
             f"</b></blockquote>"
         )
-        return await callback_query.edit_message_caption(
-            caption=caption,
-            reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELP_COMMANDS, "help"))
-        )
-    
-    elif "module" in data:
-        mod_name = re.findall(r"\((.+?)\)", data)[0] if "(" in data else data.split("_")[-1]
-        
+
+    nav = re.match(r"^help_(prev|next)\((\d+)\)$", data)
+    if nav:
+        page = int(nav.group(2))
+        page = page + 1 if nav.group(1) == "next" else page - 1
+        try:
+            return await callback_query.edit_message_reply_markup(
+                reply_markup=InlineKeyboardMarkup(paginate_modules(page, HELP_COMMANDS, "help"))
+            )
+        except Exception:
+            return await callback_query.answer()
+
+    if data == "help_back":
+        try:
+            return await callback_query.edit_message_caption(
+                caption=menu_caption(),
+                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELP_COMMANDS, "help")),
+            )
+        except Exception:
+            return await callback_query.edit_message_reply_markup(
+                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELP_COMMANDS, "help"))
+            )
+
+    mod = re.match(r"^help_module\((.+)\)$", data)
+    if mod:
+        mod_name = mod.group(1)
         if mod_name in HELP_COMMANDS:
             prefix = await ubot.get_prefix(callback_query.from_user.id)
-            help_text = HELP_COMMANDS[mod_name].__HELP__.format(next((p) for p in prefix))
+            help_doc = getattr(HELP_COMMANDS[mod_name], "__HELP__", None)
+            if not help_doc:
+                return await callback_query.answer("❌ ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴅᴇsᴋʀɪᴘsɪ ᴜɴᴛᴜᴋ ᴍᴏᴅᴜʟ ɪɴɪ", True)
+            help_text = help_doc.format(next((p) for p in prefix))
             button = [[InlineKeyboardButton("🔙 ᴋᴇᴍʙᴀʟɪ", callback_data="help_back")]]
             return await callback_query.edit_message_caption(
                 caption=f"<blockquote><b>{help_text}</b></blockquote>",
-                reply_markup=InlineKeyboardMarkup(button)
+                reply_markup=InlineKeyboardMarkup(button),
             )
+        return await callback_query.answer("❌ ᴍᴏᴅᴜʟ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ", True)
+
+    return await callback_query.answer()
 
 @PY.CALLBACK("^close_user")
 async def close_usernya(client, callback_query):

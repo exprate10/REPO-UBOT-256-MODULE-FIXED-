@@ -4,7 +4,6 @@ import random
 import string
 
 import aiohttp
-import qrcode
 
 from PyroUbot.config import PAKASIR_BASE_URL, PAKASIR_PROJECT, PAKASIR_API_KEY
 
@@ -32,6 +31,8 @@ def sanitize_qr_string(teks):
 
 
 def build_qris_image(qr_string):
+    import qrcode
+
     qr = qrcode.QRCode(
         error_correction=qrcode.constants.ERROR_CORRECT_M,
         box_size=10,
@@ -91,12 +92,17 @@ async def create_qris(harga):
     if not qr_string:
         return None
 
+    try:
+        qr_image = build_qris_image(qr_string)
+    except Exception:
+        return None
+
     return {
         "order_id": payment.get("order_id", order_id),
         "amount": int(payment.get("amount", amount)),
         "total": int(payment.get("total_payment", amount)),
         "qr_string": qr_string,
-        "qr_image": build_qris_image(qr_string),
+        "qr_image": qr_image,
         "expired_at": payment.get("expired_at"),
     }
 
