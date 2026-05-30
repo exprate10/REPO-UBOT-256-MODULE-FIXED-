@@ -218,7 +218,7 @@ class BTN:
     def QRIS_CHECK(order_id, amount, role, durasi, user_id):
         button = [
             [InlineKeyboardButton("🔄 ᴄᴇᴋ sᴛᴀᴛᴜs ᴘᴇᴍʙᴀʏᴀʀᴀɴ", callback_data=f"rolecek {order_id} {int(amount)} {role} {durasi}")],
-            [InlineKeyboardButton("🔙 ʙᴀᴛᴀʟ", callback_data=f"home {int(user_id)}")],
+            [InlineKeyboardButton("🔙 ʙᴀᴛᴀʟ", callback_data=f"cancelqris {int(user_id)}")],
         ]
         return button
 

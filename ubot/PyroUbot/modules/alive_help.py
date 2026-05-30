@@ -384,12 +384,22 @@ async def help_callback(client, callback_query):
             help_doc = getattr(HELP_COMMANDS[mod_name], "__HELP__", None)
             if not help_doc:
                 return await callback_query.answer("❌ ᴛɪᴅᴀᴋ ᴀᴅᴀ ᴅᴇsᴋʀɪᴘsɪ ᴜɴᴛᴜᴋ ᴍᴏᴅᴜʟ ɪɴɪ", True)
-            help_text = help_doc.format(next((p) for p in prefix))
+            try:
+                help_text = help_doc.format(next((p) for p in prefix))
+            except Exception:
+                help_text = help_doc
+            caption = f"<blockquote><b>{help_text}</b></blockquote>"
+            if len(caption) > 1024:
+                potongan = 1024 - len("<blockquote><b></b></blockquote>") - 3
+                caption = f"<blockquote><b>{help_text[:potongan]}…</b></blockquote>"
             button = [[InlineKeyboardButton("🔙 ᴋᴇᴍʙᴀʟɪ", callback_data="help_back")]]
-            return await callback_query.edit_message_caption(
-                caption=f"<blockquote><b>{help_text}</b></blockquote>",
-                reply_markup=InlineKeyboardMarkup(button),
-            )
+            try:
+                return await callback_query.edit_message_caption(
+                    caption=caption,
+                    reply_markup=InlineKeyboardMarkup(button),
+                )
+            except Exception as error:
+                return await callback_query.answer(f"Error: {error}", True)
         return await callback_query.answer("❌ ᴍᴏᴅᴜʟ ᴛɪᴅᴀᴋ ᴅɪᴛᴇᴍᴜᴋᴀɴ", True)
 
     return await callback_query.answer()

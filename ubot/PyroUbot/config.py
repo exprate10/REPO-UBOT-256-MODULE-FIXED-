@@ -41,6 +41,8 @@ PAYMENT_CHECK_INTERVAL = int(os.getenv("PAYMENT_CHECK_INTERVAL", "15"))
 
 NOTIFY_THUMBNAIL = os.getenv("NOTIFY_THUMBNAIL", "https://files.catbox.moe/pgaypk.jpg")
 
+START_PHOTO = os.getenv("START_PHOTO", "https://files.catbox.moe/pgaypk.jpg")
+
 ROLE_PRICES = {
     "member": {"1": int(os.getenv("PRICE_MEMBER_BULAN", "5000")), "0": int(os.getenv("PRICE_MEMBER_PERMA", "10000"))},
     "seles": {"1": int(os.getenv("PRICE_SELES_BULAN", "10000")), "0": int(os.getenv("PRICE_SELES_PERMA", "20000"))},

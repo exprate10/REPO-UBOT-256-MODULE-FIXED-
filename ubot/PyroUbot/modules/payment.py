@@ -10,6 +10,7 @@ from PyroUbot.config import (
     ROLE_PRICES,
     NOTIFY_CHANNEL,
     NOTIFY_THUMBNAIL,
+    START_PHOTO,
     PAYMENT_TIMEOUT,
     PAYMENT_CHECK_INTERVAL,
     OWNER_USERNAME,
@@ -189,6 +190,25 @@ async def _(client, callback_query):
     asyncio.create_task(
         auto_cek_pembayaran(user_id, order_id, amount, role, durasi, sent_message)
     )
+
+
+@PY.CALLBACK("cancelqris")
+async def _(client, callback_query):
+    user_id = callback_query.from_user.id
+    ACTIVE_PAYMENT.pop(user_id, None)
+    try:
+        await callback_query.message.delete()
+    except Exception:
+        pass
+    try:
+        await bot.send_photo(
+            user_id,
+            START_PHOTO,
+            caption=MSG.START(callback_query),
+            reply_markup=InlineKeyboardMarkup(BTN.START(callback_query)),
+        )
+    except Exception as error:
+        await callback_query.answer(f"Error: {error}", True)
 
 
 @PY.CALLBACK("rolecek")

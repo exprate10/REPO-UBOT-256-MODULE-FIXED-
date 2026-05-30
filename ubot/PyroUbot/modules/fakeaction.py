@@ -6,44 +6,22 @@ from PyroUbot import *
 
 __MODULE__ = "ғᴀᴋᴇ ᴀᴄᴛɪᴏɴ"
 __HELP__ = """
-<b>⦪ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ғᴀᴋᴇ ᴀᴄᴛɪᴏɴ ⦫</b>
+<blockquote><b>⦪ ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ғᴀᴋᴇ ᴀᴄᴛɪᴏɴ ⦫
 
-<blockquote>⎆ perintah :
-ᚗ <code>{0}ftyping</code> detik
-⊶ Menampilkan pengetikan palsu dalam obrolan.
+ᴘᴀᴋᴀɪ: <code>{0}perintah</code> [detik]
 
-ᚗ <code>{0}fgame</code> detik 
-⊶ Menampilkan sedang bermain game palsu dalam obrolan.
-
-ᚗ <code>{0}faudio</code> detik 
-⊶ Menampilkan tindakan merekam suara palsu dalam obrolan.
-
-ᚗ <code>{0}fvideo</code> detik 
-⊶ Menampilkan tindakan merekam video palsu dalam obrolan.
-
-ᚗ <code>{0}fround</code> detik 
-⊶ Menampilkan tindakan merekam video note palsu dalam obrolan.
-
-ᚗ <code>{0}fphoto</code> detik 
-⊶ Menampilkan tindakan mengirim foto palsu dalam obrolan.
-
-ᚗ <code>{0}fsticker</code> detik 
-⊶ Menampilkan tindakan memilih sticker palsu dalam obrolan.
-
-ᚗ <code>{0}fcontact</code> detik 
-⊶ Menampilkan tindakan membagikan kontak palsu dalam obrolan
-
-ᚗ <code>{0}flocation</code> detik 
-⊶ Menampilkan tindakan membagikan lokasi palsu dalam obrolan.
-
-ᚗ <code>{0}fdocument</code> detik 
-⊶ Menampilkan tindakan mengirim dokumen palsu dalam obrolan.
-
-ᚗ <code>{0}fscreenshot</code> detik 
-⊶ Menampilkan tindakan screenshot palsu (Gunakan di Obrolan Pribadi).
-
-ᚗ <code>{0}fstop</code> detik 
-⊶ Menghentikan semua tindakan palsu dalam obrolan.</blockquote>
+ᚗ <code>{0}ftyping</code> ⊶ pengetikan palsu
+ᚗ <code>{0}fgame</code> ⊶ bermain game palsu
+ᚗ <code>{0}faudio</code> ⊶ merekam suara palsu
+ᚗ <code>{0}fvideo</code> ⊶ merekam video palsu
+ᚗ <code>{0}fround</code> ⊶ merekam video note palsu
+ᚗ <code>{0}fphoto</code> ⊶ mengirim foto palsu
+ᚗ <code>{0}fsticker</code> ⊶ memilih sticker palsu
+ᚗ <code>{0}fcontact</code> ⊶ membagikan kontak palsu
+ᚗ <code>{0}flocation</code> ⊶ membagikan lokasi palsu
+ᚗ <code>{0}fdocument</code> ⊶ mengirim dokumen palsu
+ᚗ <code>{0}fscreenshot</code> ⊶ screenshot palsu (private)
+ᚗ <code>{0}fstop</code> ⊶ menghentikan semua aksi palsu</b></blockquote>
 """
 
 actions = {

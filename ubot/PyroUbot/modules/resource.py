@@ -5,6 +5,12 @@ from pyrogram.types import Message
 import psutil
 
 __MODULE__ = "ʀᴇꜱᴏᴜʀᴄᴇ"
+__HELP__ = """
+<blockquote><b>『 ʙᴀɴᴛᴜᴀɴ ᴜɴᴛᴜᴋ ʀᴇꜱᴏᴜʀᴄᴇ 』
+
+perintah : <code>{0}resource</code>
+    untuk melihat detail penggunaan CPU, RAM, dan Swap server</b></blockquote>
+"""
 
 @PY.UBOT("resource")
 async def _(client, message: Message):
