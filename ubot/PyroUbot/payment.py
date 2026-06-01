@@ -120,13 +120,22 @@ async def cek_status(order_id, amount):
     try:
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(url) as resp:
+                if resp.status != 200:
+                    print(f"[PAKASIR] cek_status http {resp.status} order={order_id} amount={amount}")
+                    return False
                 data = await resp.json(content_type=None)
-    except Exception:
+    except Exception as error:
+        print(f"[PAKASIR] cek_status error: {error}")
         return False
 
-    if data and isinstance(data, dict):
-        transaksi = data.get("transaction") or {}
-        status = (transaksi.get("status") or data.get("status") or "").lower()
-        if status in ("completed", "success", "paid", "settled"):
-            return True
+    if not data or not isinstance(data, dict):
+        return False
+
+    transaksi = data.get("transaction")
+    if not isinstance(transaksi, dict):
+        transaksi = data
+    status = str(transaksi.get("status") or data.get("status") or "").lower()
+
+    if status in ("completed", "success", "paid", "settled"):
+        return True
     return False

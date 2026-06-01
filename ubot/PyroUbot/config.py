@@ -37,7 +37,7 @@ PAKASIR_API_KEY = os.getenv("PAKASIR_API_KEY", "")
 
 PAYMENT_TIMEOUT = int(os.getenv("PAYMENT_TIMEOUT", "600"))
 
-PAYMENT_CHECK_INTERVAL = int(os.getenv("PAYMENT_CHECK_INTERVAL", "15"))
+PAYMENT_CHECK_INTERVAL = int(os.getenv("PAYMENT_CHECK_INTERVAL", "10"))
 
 NOTIFY_THUMBNAIL = os.getenv("NOTIFY_THUMBNAIL", "https://files.catbox.moe/pgaypk.jpg")
 

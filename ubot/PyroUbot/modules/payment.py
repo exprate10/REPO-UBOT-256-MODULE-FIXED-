@@ -171,7 +171,8 @@ async def _(client, callback_query):
         )
 
     order_id = qris["order_id"]
-    amount = qris["total"]
+    amount = qris["amount"]
+    total = qris["total"]
 
     try:
         await callback_query.message.delete()
@@ -181,7 +182,7 @@ async def _(client, callback_query):
     sent_message = await bot.send_photo(
         user_id,
         photo=qris["qr_image"],
-        caption=MSG.QRIS(role, durasi, amount, order_id),
+        caption=MSG.QRIS(role, durasi, total, order_id),
         reply_markup=InlineKeyboardMarkup(
             BTN.QRIS_CHECK(order_id, amount, role, durasi, user_id)
         ),
